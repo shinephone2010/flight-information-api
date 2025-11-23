@@ -263,43 +263,14 @@
         "operationId": "SearchFlight",
         "parameters": [
           {
-            "name": "airline",
+            "name": "searchKeys",
             "in": "query",
-            "description": "Search flights by airline.",
+            "description": "Search criteria for filtering flights.",
+            "required": true,
+            "style": "form",
+            "explode": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "departureAirport",
-            "in": "query",
-            "description": "Search flights by departure airport.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "arrivalAirport",
-            "in": "query",
-            "description": "Search flights by arrival airport.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fromDate",
-            "in": "query",
-            "description": "Search flights by departure date from.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "toDate",
-            "in": "query",
-            "description": "Search flights by departure date to.",
-            "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/SearchKeys"
             }
           }
         ],
@@ -366,6 +337,7 @@
       "Flight": {
         "type": "object",
         "title": "Flight",
+        "description": "A representation of a flight information.",
         "properties": {
           "id": {
             "type": "integer"
@@ -401,6 +373,36 @@
             ]
           }
         }
+      },
+      "SearchKeys": {
+        "type": "object",
+        "title": "SearchKeys",
+        "description": "Search criteria for filtering flights.",
+        "properties": {
+          "airline": {
+            "type": "string",
+            "description": "Search flights by airline."
+          },
+          "departureAirport": {
+            "type": "string",
+            "description": "Search flights by departure airport."
+          },
+          "arrivalAirport": {
+            "type": "string",
+            "description": "Search flights by arrival airport."
+          },
+          "fromDate": {
+            "type": "string",
+            "description": "Search flights by departure date from.",
+            "format": "date"
+          },
+          "toDate": {
+            "type": "string",
+            "description": "Search flights by departure date to.",
+            "format": "date"
+          }
+        },
+        "x-internal": true
       }
     }
   }

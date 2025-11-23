@@ -88,17 +88,16 @@ namespace FlightInformation.API.Controllers
         /// <remarks>
         /// Search a flight by providing parameters
         /// </remarks>
-        /// <param name="airline">Search flights by airline.</param>
-        /// <param name="departureAirport">Search flights by departure airport.</param>
-        /// <param name="arrivalAirport">Search flights by arrival airport.</param>
-        /// <param name="fromDate">Search flights by departure date from.</param>
-        /// <param name="toDate">Search flights by departure date to.</param>
+        /// <param name="searchKeys">Search criteria for filtering flights.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("flights/search")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Flight>>> SearchFlight([Microsoft.AspNetCore.Mvc.FromQuery] string airline = null, [Microsoft.AspNetCore.Mvc.FromQuery] string departureAirport = null, [Microsoft.AspNetCore.Mvc.FromQuery] string arrivalAirport = null, [Microsoft.AspNetCore.Mvc.FromQuery] string fromDate = null, [Microsoft.AspNetCore.Mvc.FromQuery] string toDate = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Flight>>> SearchFlight([Microsoft.AspNetCore.Mvc.FromQuery] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] SearchKeys searchKeys, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
+    /// <summary>
+    /// A representation of a flight information.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Flight
     {
@@ -139,6 +138,56 @@ namespace FlightInformation.API.Controllers
 
     }
 
+    /// <summary>
+    /// Search criteria for filtering flights.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SearchKeys
+    {
+
+        /// <summary>
+        /// Search flights by airline.
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyName("airline")]
+        public string Airline { get; set; }
+
+        /// <summary>
+        /// Search flights by departure airport.
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyName("departureAirport")]
+        public string DepartureAirport { get; set; }
+
+        /// <summary>
+        /// Search flights by arrival airport.
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyName("arrivalAirport")]
+        public string ArrivalAirport { get; set; }
+
+        /// <summary>
+        /// Search flights by departure date from.
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyName("fromDate")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
+        public System.DateTimeOffset FromDate { get; set; }
+
+        /// <summary>
+        /// Search flights by departure date to.
+        /// </summary>
+        [System.Text.Json.Serialization.JsonPropertyName("toDate")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
+        public System.DateTimeOffset ToDate { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum FlightStatus
     {
@@ -158,6 +207,26 @@ namespace FlightInformation.API.Controllers
         [System.Runtime.Serialization.EnumMember(Value = @"Landed")]
         Landed = 4,
 
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    internal class DateFormatConverter : System.Text.Json.Serialization.JsonConverter<System.DateTimeOffset>
+    {
+        public override System.DateTimeOffset Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
+        {
+            var dateTime = reader.GetString();
+            if (dateTime == null)
+            {
+                throw new System.Text.Json.JsonException("Unexpected JsonTokenType.Null");
+            }
+
+            return System.DateTimeOffset.Parse(dateTime);
+        }
+
+        public override void Write(System.Text.Json.Utf8JsonWriter writer, System.DateTimeOffset value, System.Text.Json.JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString("yyyy-MM-dd"));
+        }
     }
 
 
