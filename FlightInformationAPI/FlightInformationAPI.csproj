@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\OpenAPI\Src\Stub\FlightInformation.API\FlightInformation.API.csproj" />
   </ItemGroup>
 
 </Project>

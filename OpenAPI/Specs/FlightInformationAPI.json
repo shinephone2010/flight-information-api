@@ -17,7 +17,7 @@
         ],
         "summary": "Your GET endpoint",
         "description": "Retrieve all flights.",
-        "operationId": "get-flights",
+        "operationId": "GetFlights",
         "responses": {
           "200": {
             "description": "OK",
@@ -71,7 +71,7 @@
         ],
         "summary": "Your POST endpoint",
         "description": "Create a new flight.",
-        "operationId": "post-flights",
+        "operationId": "CreateFlight",
         "responses": {
           "2XX": {
             "description": "Success",
@@ -120,7 +120,7 @@
         ],
         "summary": "Your GET endpoint",
         "description": "Retrieve a specific flight by ID.",
-        "operationId": "get-flights-id",
+        "operationId": "GetFlight",
         "parameters": [
           {
             "name": "id",
@@ -173,7 +173,7 @@
         ],
         "summary": "Your PUT endpoint",
         "description": "Update an existing flight.",
-        "operationId": "put-flights-id",
+        "operationId": "UpdateFlight",
         "parameters": [
           {
             "name": "id",
@@ -226,7 +226,7 @@
         ],
         "summary": "Your DELETE endpoint",
         "description": "Delete a flight.",
-        "operationId": "delete-flights-id",
+        "operationId": "DeleteFlight",
         "parameters": [
           {
             "name": "id",
@@ -260,7 +260,7 @@
         ],
         "summary": "Your GET endpoint",
         "description": "Search a flight by providing parameters",
-        "operationId": "get-flights-search",
+        "operationId": "SearchFlight",
         "parameters": [
           {
             "name": "airline",
