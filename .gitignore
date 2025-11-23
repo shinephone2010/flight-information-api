@@ -1,0 +1,30 @@
+# Build output
+bin/
+obj/
+[Bb]uild/
+artifacts/
+
+# User-specific files
+*.user
+*.userprefs
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+
+# Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+# Other
+[Tt]emp/
