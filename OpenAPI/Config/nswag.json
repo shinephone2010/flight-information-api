@@ -1,0 +1,24 @@
+{
+  "runtime": "Net80",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "../specs/FlightInformationAPI.json",
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpController": {
+      "className": "{controller}ControllerBase",
+      "namespace": "FlightInformation.API.Controllers",
+      "aspNetNamespace": "Microsoft.AspNetCore.Mvc",
+      "controllerBaseClass": "Microsoft.AspNetCore.Mvc.ControllerBase",
+      "controllerStyle": "Abstract",
+      "useActionResultType": true,
+      "generateOptionalParameters": true,
+      "addMissingPathParameters": true,
+      "generateModelValidationAttributes": true,
+      "useCancellationToken": true,
+      "output": "../Src/Stub/FlightInformation.API/FlightInformationApiController.cs"
+    }
+  }
+}

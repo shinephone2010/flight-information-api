@@ -1,0 +1,407 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Flight Information API"
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+    "/flights": {
+      "get": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Retrieve all flights.",
+        "operationId": "get-flights",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Flight"
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "flightNumber": "NZ123",
+                        "airline": "Air New Zealand",
+                        "departureAirport": "AKL",
+                        "arrivalAirport": "WLG",
+                        "departureTime": "2025-11-26T10:00:00Z",
+                        "arrivalTime": "2025-11-26T11:00:00Z",
+                        "status": "Scheduled"
+                      },
+                      {
+                        "id": 2,
+                        "flightNumber": "NZ456",
+                        "airline": "Air New Zealand",
+                        "departureAirport": "WLG",
+                        "arrivalAirport": "AKL",
+                        "departureTime": "2025-12-26T10:00:00Z",
+                        "arrivalTime": "2025-12-26T11:00:00Z",
+                        "status": "Scheduled"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "/api"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Your POST endpoint",
+        "description": "Create a new flight.",
+        "operationId": "post-flights",
+        "responses": {
+          "2XX": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Flight"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": 42,
+                      "flightNumber": "NZ123",
+                      "airline": "Air New Zealand",
+                      "departureAirport": "AKL",
+                      "arrivalAirport": "WLG",
+                      "departureTime": "2025-11-26T10:00:00Z",
+                      "arrivalTime": "2025-11-26T11:00:00Z",
+                      "status": "Scheduled"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A Location header pointing to the new resource."
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "/api"
+          }
+        ]
+      }
+    },
+    "/flights/{id}": {
+      "get": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Retrieve a specific flight by ID.",
+        "operationId": "get-flights-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the flight to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Flight"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": 1,
+                      "flightNumber": "NZ123",
+                      "airline": "Air New Zealand",
+                      "departureAirport": "AKL",
+                      "arrivalAirport": "WLG",
+                      "departureTime": "2025-11-26T10:00:00Z",
+                      "arrivalTime": "2025-11-26T11:00:00Z",
+                      "status": "Scheduled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "servers": [
+          {
+            "url": "/api"
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Your PUT endpoint",
+        "description": "Update an existing flight.",
+        "operationId": "put-flights-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the flight to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Flight"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": 1,
+                      "flightNumber": "NZ123",
+                      "airline": "Air New Zealand",
+                      "departureAirport": "AKL",
+                      "arrivalAirport": "WLG",
+                      "departureTime": "2025-11-26T10:00:00Z",
+                      "arrivalTime": "2025-11-26T11:00:00Z",
+                      "status": "Scheduled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "servers": [
+          {
+            "url": "/api"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Your DELETE endpoint",
+        "description": "Delete a flight.",
+        "operationId": "delete-flights-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the flight to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "servers": [
+          {
+            "url": "/api"
+          }
+        ]
+      }
+    },
+    "/flights/search": {
+      "get": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Search a flight by providing parameters",
+        "operationId": "get-flights-search",
+        "parameters": [
+          {
+            "name": "airline",
+            "in": "query",
+            "description": "Search flights by airline.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "departureAirport",
+            "in": "query",
+            "description": "Search flights by departure airport.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "arrivalAirport",
+            "in": "query",
+            "description": "Search flights by arrival airport.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "description": "Search flights by departure date from.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "description": "Search flights by departure date to.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Flight"
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "flightNumber": "NZ123",
+                        "airline": "Air New Zealand",
+                        "departureAirport": "AKL",
+                        "arrivalAirport": "WLG",
+                        "departureTime": "2025-11-26T10:00:00Z",
+                        "arrivalTime": "2025-11-26T11:00:00Z",
+                        "status": "Scheduled"
+                      },
+                      {
+                        "id": 2,
+                        "flightNumber": "NZ456",
+                        "airline": "Air New Zealand",
+                        "departureAirport": "WLG",
+                        "arrivalAirport": "AKL",
+                        "departureTime": "2025-12-26T10:00:00Z",
+                        "arrivalTime": "2025-12-26T11:00:00Z",
+                        "status": "Scheduled"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "servers": [
+          {
+            "url": "/api"
+          }
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Flights",
+      "description": "Operations for searching and retrieving flight information"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Flight": {
+        "type": "object",
+        "title": "Flight",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "flightNumber": {
+            "type": "string"
+          },
+          "airline": {
+            "type": "string"
+          },
+          "departureAirport": {
+            "type": "string"
+          },
+          "arrivalAirport": {
+            "type": "string"
+          },
+          "departureTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Scheduled",
+              "Delayed",
+              "Cancelled",
+              "InAir",
+              "Landed"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
