@@ -1,23 +1,28 @@
-﻿using FlightInformation.API.Controllers;
+﻿using Application.FlightInformation.Commands;
+using FlightInformation.API.Controllers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlightInformationAPI.Controllers
 {
     [ApiController]
-    public class FlightInformationController : FlightInformationControllerControllerBase
+    public class FlightInformationController(IMediator mediator) : FlightInformationControllerControllerBase
     {
-        public override Task<ActionResult<Flight>> CreateFlight(CancellationToken cancellationToken = default)
+        private readonly IMediator _mediator = mediator;
+
+        public override Task<IActionResult> CreateFlight([FromBody] Flight body, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<IActionResult> DeleteFlight([BindRequired] string id, CancellationToken cancellationToken = default)
+        public override Task<ActionResult<Flight>> DeleteFlight([BindRequired] int id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<ActionResult<Flight>> GetFlight([BindRequired] string id, CancellationToken cancellationToken = default)
+        public override Task<ActionResult<Flight>> GetFlight([BindRequired] int id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -27,14 +32,40 @@ namespace FlightInformationAPI.Controllers
             throw new NotImplementedException();
         }
 
-        public override Task<ActionResult<ICollection<Flight>>> SearchFlight([BindRequired, FromQuery] SearchKeys searchKeys, CancellationToken cancellationToken = default)
+        public override Task<ActionResult<ICollection<Flight>>> SearchFlights([BindRequired, FromQuery] SearchKeys searchKeys, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<ActionResult<Flight>> UpdateFlight([BindRequired] string id, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<Flight>> UpdateFlight([BindRequired] int id, [FromBody] Flight body, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var commandRequest = new UpdateFlightCommandRequest(id, body);
+
+            try
+            {
+                var flight = await _mediator.Send(commandRequest, cancellationToken);
+
+                if (flight.FlightInformation is null)
+                {
+                    return NotFound(new ErrorResponse
+                    {
+                        Error = "Not Found",
+                        Message = $"Flight with id: {id} is not found."
+                    });
+                }
+
+                return Ok(flight);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+                return Conflict(new ErrorResponse
+                {
+                    Error = "Concurrency Conflict",
+                    Message = "The flight was modified by another user. Please reload the latest data and try again."
+                });
+            }
+
         }
     }
 }

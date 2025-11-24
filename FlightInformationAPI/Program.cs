@@ -1,10 +1,17 @@
+using Application.FlightInformation.Commands;
+using FlightInformationAPI;
 using Infrastructure.Helpers;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using NodaTime;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("FlightInformationDb"));
+builder.Services.AddInfrastructure();
+builder.Services.AddSingleton<IClock>(SystemClock.Instance);
+builder.Services.AddMediatR(config =>
+{
+    config.RegisterServicesFromAssemblyContaining<UpdateFlightCommandHandler>();
+});
 
 // Add services to the container.
 
@@ -31,7 +38,8 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await CsvSeeder.SeedFlightDataFromResourceAsync(db);
+    var clock = scope.ServiceProvider.GetRequiredService<IClock>();
+    await CsvSeeder.SeedFlightDataFromResourceAsync(db, clock);
 }
 
 app.Run();

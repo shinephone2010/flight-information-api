@@ -1,5 +1,7 @@
-﻿using Infrastructure.Persistence;
+﻿using Infrastructure.Extensions;
+using Infrastructure.Persistence;
 using Infrastructure.Persistence.Entities;
+using NodaTime;
 
 namespace Infrastructure.Helpers
 {
@@ -7,6 +9,7 @@ namespace Infrastructure.Helpers
     {
         public static async Task SeedFlightDataFromResourceAsync(
             IApplicationDbContext dbContext,
+            IClock clock,
             CancellationToken cancellationToken = default)
         {
             var flightData = Resource.FlightInformation;
@@ -49,7 +52,8 @@ namespace Infrastructure.Helpers
                         ArrivalAirport = columns[4].Trim(),
                         DepartureTime = Convert.ToDateTime(columns[5].Trim()),
                         ArrivalTime = Convert.ToDateTime(columns[6].Trim()),
-                        Status = columns[7].Trim()
+                        Status = columns[7].Trim(),
+                        LastModified = clock.GetUtcDateTimeOffsetToUnixTimeSeconds()
                     });
             }
 

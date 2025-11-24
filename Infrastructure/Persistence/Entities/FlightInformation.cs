@@ -10,5 +10,6 @@
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
         public string Status { get; set; } = null!;
+        public DateTimeOffset LastModified { get; set; }
     }
 }

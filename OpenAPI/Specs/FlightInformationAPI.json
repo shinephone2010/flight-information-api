@@ -2,7 +2,9 @@
   "openapi": "3.1.0",
   "info": {
     "version": "1.0.0",
-    "title": "Flight Information API"
+    "title": "Flight Information API",
+    "summary": "Flight Information API Ver 1.0.0",
+    "description": "The API provides endpoints to search, retrieve, create, update, and delete flight records. It supports querying flights by airline, route, and date range, and returns details such as flight number, departure/arrival airports, times, and current status."
   },
   "servers": [
     {
@@ -20,7 +22,7 @@
         "operationId": "GetFlights",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Retrieve all flights successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -40,7 +42,8 @@
                         "arrivalAirport": "WLG",
                         "departureTime": "2025-11-26T10:00:00Z",
                         "arrivalTime": "2025-11-26T11:00:00Z",
-                        "status": "Scheduled"
+                        "status": "Scheduled",
+                        "lastModified": "2025-11-27T10:00:00Z"
                       },
                       {
                         "id": 2,
@@ -50,7 +53,8 @@
                         "arrivalAirport": "AKL",
                         "departureTime": "2025-12-26T10:00:00Z",
                         "arrivalTime": "2025-12-26T11:00:00Z",
-                        "status": "Scheduled"
+                        "status": "Scheduled",
+                        "lastModified": "2025-11-27T10:00:00Z"
                       }
                     ]
                   }
@@ -70,40 +74,50 @@
           "Flights"
         ],
         "summary": "Your POST endpoint",
-        "description": "Create a new flight.",
+        "description": "Creates a new flight with the provided details. On success, returns the created flight and the Location header pointing to the new resource.",
         "operationId": "CreateFlight",
-        "responses": {
-          "2XX": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Flight"
-                },
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "id": 42,
-                      "flightNumber": "NZ123",
-                      "airline": "Air New Zealand",
-                      "departureAirport": "AKL",
-                      "arrivalAirport": "WLG",
-                      "departureTime": "2025-11-26T10:00:00Z",
-                      "arrivalTime": "2025-11-26T11:00:00Z",
-                      "status": "Scheduled"
-                    }
+        "requestBody": {
+          "description": "Flight details used to create a new flight.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Flight"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "flightNumber": "NZ123",
+                    "airline": "Air New Zealand",
+                    "departureAirport": "AKL",
+                    "arrivalAirport": "WLG",
+                    "departureTime": "2025-11-26T10:00:00Z",
+                    "arrivalTime": "2025-11-26T11:00:00Z",
+                    "status": "Scheduled",
+                    "lastModified": "2025-11-27T10:00:00Z"
                   }
                 }
               }
-            },
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Flight created successfully.",
             "headers": {
               "Location": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "/flights/123"
                 },
-                "description": "A Location header pointing to the new resource."
+                "description": "URL of the newly created flight resource."
               }
             }
+          },
+          "400": {
+            "description": "The request is invalid or fails validation."
+          },
+          "409": {
+            "description": "A flight with the same unique key already exists or a business rule conflict occurred."
           }
         },
         "servers": [
@@ -128,13 +142,13 @@
             "description": "Unique identifier of the flight to retrieve.",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Retrieve a specific flight by ID successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -150,15 +164,34 @@
                       "arrivalAirport": "WLG",
                       "departureTime": "2025-11-26T10:00:00Z",
                       "arrivalTime": "2025-11-26T11:00:00Z",
-                      "status": "Scheduled"
+                      "status": "Scheduled",
+                      "lastModified": "2025-11-27T10:00:00Z"
                     }
                   }
                 }
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "404": {
+            "description": "Flight is not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "error": "NotFound",
+                      "message": "Flight with the specified ID was not found.",
+                      "details": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "servers": [
@@ -181,10 +214,20 @@
             "description": "Unique identifier of the flight to retrieve.",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
+        "requestBody": {
+          "description": "Flight details used to update an existing flight.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Flight"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -203,15 +246,76 @@
                       "arrivalAirport": "WLG",
                       "departureTime": "2025-11-26T10:00:00Z",
                       "arrivalTime": "2025-11-26T11:00:00Z",
-                      "status": "Scheduled"
+                      "status": "Scheduled",
+                      "lastModified": "2025-11-27T10:00:00Z"
                     }
                   }
                 }
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "400": {
+            "description": "The request is invalid or fails validation (for example, missing required fields or invalid date/time values).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "error": "ValidationFailed",
+                      "message": "One or more validation errors occurred.",
+                      "details": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Flight with the specified ID was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "error": "NotFound",
+                      "message": "Flight with the specified ID was not found.",
+                      "details": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The update could not be applied due to a conflict, such as a concurrency violation or a business rule conflict.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "error": "Conflict",
+                      "message": "Concurrentcy conflict, two or more users update the same flight at the same time.",
+                      "details": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "servers": [
@@ -234,16 +338,56 @@
             "description": "Unique identifier of the flight to retrieve.",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Flight"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": 1,
+                      "flightNumber": "NZ123",
+                      "airline": "Air New Zealand",
+                      "departureAirport": "AKL",
+                      "arrivalAirport": "WLG",
+                      "departureTime": "2025-11-26T10:00:00Z",
+                      "arrivalTime": "2025-11-26T11:00:00Z",
+                      "status": "Scheduled",
+                      "lastModified": "2025-11-27T10:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
           },
-          "204": {
-            "description": "No Content"
+          "404": {
+            "description": "Flight is not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "error": "NotFound",
+                      "message": "Flight with the specified ID was not found.",
+                      "details": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "servers": [
@@ -259,8 +403,8 @@
           "Flights"
         ],
         "summary": "Your GET endpoint",
-        "description": "Search a flight by providing parameters",
-        "operationId": "SearchFlight",
+        "description": "Searches for flights that match the specified criteria. Use the searchKeys query parameter to filter by airline, departure and arrival airports, and an optional departure date range. Returns a list of matching flights when found, or 204 (No Content) if no flights match.",
+        "operationId": "SearchFlights",
         "parameters": [
           {
             "name": "searchKeys",
@@ -276,7 +420,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A list of flights that match the provided search criteria.",
             "content": {
               "application/json": {
                 "schema": {
@@ -296,7 +440,8 @@
                         "arrivalAirport": "WLG",
                         "departureTime": "2025-11-26T10:00:00Z",
                         "arrivalTime": "2025-11-26T11:00:00Z",
-                        "status": "Scheduled"
+                        "status": "Scheduled",
+                        "lastModified": "2025-11-27T10:00:00Z"
                       },
                       {
                         "id": 2,
@@ -306,16 +451,14 @@
                         "arrivalAirport": "AKL",
                         "departureTime": "2025-12-26T10:00:00Z",
                         "arrivalTime": "2025-12-26T11:00:00Z",
-                        "status": "Scheduled"
+                        "status": "Scheduled",
+                        "lastModified": "2025-11-27T10:00:00Z"
                       }
                     ]
                   }
                 }
               }
             }
-          },
-          "204": {
-            "description": "No Content"
           }
         },
         "servers": [
@@ -340,26 +483,33 @@
         "description": "A representation of a flight information.",
         "properties": {
           "id": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Flight id."
           },
           "flightNumber": {
-            "type": "string"
+            "type": "string",
+            "description": "Flight number."
           },
           "airline": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the airline. "
           },
           "departureAirport": {
-            "type": "string"
+            "type": "string",
+            "description": "Departure airport."
           },
           "arrivalAirport": {
-            "type": "string"
+            "type": "string",
+            "description": "Destination airport."
           },
           "departureTime": {
             "type": "string",
+            "description": "Departure datetime.",
             "format": "date-time"
           },
           "arrivalTime": {
             "type": "string",
+            "description": "Arrival datetime.",
             "format": "date-time"
           },
           "status": {
@@ -370,7 +520,45 @@
               "Cancelled",
               "InAir",
               "Landed"
-            ]
+            ],
+            "description": "Flight status (Scheduled, Delayed, Cancelled, InAir, Landed))"
+          },
+          "lastModified": {
+            "type": "string",
+            "description": "Last update datetime.",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "flightNumber",
+          "airline",
+          "departureAirport",
+          "arrivalAirport",
+          "departureTime",
+          "arrivalTime",
+          "status",
+          "lastModified"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "title": "ErrorResponse",
+        "description": "Standard error response returned when a request cannot be processed.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "A short, machine-readable error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "A human-readable description of the error."
+          },
+          "details": {
+            "type": "array",
+            "description": "Optional list of additional error details, such as validation messages.",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
