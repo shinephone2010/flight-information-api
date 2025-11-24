@@ -31,4 +31,8 @@
     <Folder Include="Resources\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OpenAPI\Src\Stub\FlightInformation.API\FlightInformation.API.csproj" />
+  </ItemGroup>
+
 </Project>

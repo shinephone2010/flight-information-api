@@ -26,7 +26,7 @@ namespace Infrastructure.Helpers
                 return;
             }
 
-            List<FlightInformation> flights = [];
+            List<FlightInfo> flights = [];
             string? line;
             while ((line = await stringReader.ReadLineAsync(cancellationToken)) is not null)
             {
@@ -43,7 +43,7 @@ namespace Infrastructure.Helpers
                 }
 
                 flights.Add(
-                    new FlightInformation
+                    new FlightInfo
                     {
                         Id = Convert.ToInt32(columns[0].Trim()),
                         FlightNumber = columns[1].Trim(),
@@ -59,7 +59,7 @@ namespace Infrastructure.Helpers
 
             if (flights.Count > 0)
             {
-                await dbContext.FlightInformation.AddRangeAsync(flights, cancellationToken);
+                await dbContext.FlightInfo.AddRangeAsync(flights, cancellationToken);
                 await dbContext.SaveChangesAsync(cancellationToken);
             }
 

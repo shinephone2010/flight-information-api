@@ -114,10 +114,28 @@
             }
           },
           "400": {
-            "description": "The request is invalid or fails validation."
+            "description": "The request is invalid or fails validation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "error": "ValidationFailed",
+                      "message": "One or more validation errors occurred.",
+                      "details": [
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           },
-          "409": {
-            "description": "A flight with the same unique key already exists or a business rule conflict occurred."
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "servers": [

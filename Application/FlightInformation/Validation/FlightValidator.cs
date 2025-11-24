@@ -24,12 +24,13 @@ namespace Application.FlightInformation.Validation
                 .Length(3).WithMessage("Arrival airport must be a 3-letter IATA code.")
                 .NotEqual(x => x.DepartureAirport).WithMessage("Arrival airport must be different from departure airport.");
 
-            RuleFor(x => x.DepartureTime)
-                .GreaterThan(DateTime.UtcNow).WithMessage("Departure time must be in the future.");
-
             RuleFor(x => x.ArrivalTime)
                 .GreaterThan(x => x.DepartureTime)
                 .WithMessage("Arrival time must be after departure time.");
+
+            RuleFor(x => x.Status)
+                .IsInEnum()
+                .WithMessage("Status must be a valid flight status.");
         }
     }
 }

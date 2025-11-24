@@ -2,14 +2,13 @@
 using Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
-using System.Reflection.Metadata;
 
 namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         private readonly IClock _clock;
-        public virtual DbSet<FlightInformation> FlightInformation { get; set; }
+        public virtual DbSet<FlightInfo> FlightInfo { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IClock clock)
             : base(options)
@@ -19,7 +18,7 @@ namespace Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var flightInfo = modelBuilder.Entity<FlightInformation>();
+            var flightInfo = modelBuilder.Entity<FlightInfo>();
 
             flightInfo.Property(f => f.LastModified)
                 .IsConcurrencyToken()   // tells EF to use this in concurrency checks
@@ -33,7 +32,7 @@ namespace Infrastructure.Persistence
             // Set LastModified for updated entities
             var utc = _clock.GetUtcDateTimeOffsetToUnixTimeSeconds();
 
-            foreach (var entry in ChangeTracker.Entries<FlightInformation>())
+            foreach (var entry in ChangeTracker.Entries<FlightInfo>())
             {
                 if (entry.State == EntityState.Modified)
                 {

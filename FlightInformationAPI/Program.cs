@@ -1,5 +1,8 @@
 using Application.FlightInformation.Commands;
+using Application.FlightInformation.Validation;
+using FlightInformation.API.Controllers;
 using FlightInformationAPI;
+using FluentValidation;
 using Infrastructure.Helpers;
 using Infrastructure.Persistence;
 using NodaTime;
@@ -8,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure();
 builder.Services.AddSingleton<IClock>(SystemClock.Instance);
+builder.Services.AddScoped<IValidator<Flight>, FlightValidator>();
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssemblyContaining<UpdateFlightCommandHandler>();

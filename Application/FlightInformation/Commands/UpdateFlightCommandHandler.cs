@@ -9,7 +9,7 @@ namespace Application.FlightInformation.Commands
 
     public class UpdateFlightCommandResponse()
     {
-        public Flight? FlightInformation { get; set; }
+        public Flight? Flight { get; set; }
     }
 
     public class UpdateFlightCommandHandler(IApplicationDbContext dbContext)
@@ -19,38 +19,38 @@ namespace Application.FlightInformation.Commands
 
         public async Task<UpdateFlightCommandResponse> Handle(UpdateFlightCommandRequest request, CancellationToken cancellationToken)
         {
-            var flight = await _dbContext.FlightInformation
+            var flightInfo = await _dbContext.FlightInfo
                 .FindAsync([request.Id], cancellationToken);
 
-            if (flight == null)
+            if (flightInfo == null)
             {
                 return new UpdateFlightCommandResponse
                 {
-                    FlightInformation = null
+                    Flight = null
                 };
             }
 
-            var flightInformation = request.Flight;
+            var flight = request.Flight;
 
-            flight.Airline = flightInformation.Airline;
-            flight.FlightNumber = flightInformation.FlightNumber;
-            flight.ArrivalAirport = flightInformation.ArrivalAirport;
-            flight.DepartureAirport = flightInformation.DepartureAirport;
-            flight.ArrivalAirport = flightInformation.ArrivalAirport;
-            flight.DepartureAirport = flightInformation.DepartureAirport;
-            flight.Status = flightInformation.Status.ToString();
+            flightInfo.Airline = flight.Airline;
+            flightInfo.FlightNumber = flight.FlightNumber;
+            flightInfo.DepartureAirport = flight.DepartureAirport;
+            flightInfo.ArrivalAirport = flight.ArrivalAirport;
+            flightInfo.DepartureTime = flight.DepartureTime.DateTime;
+            flightInfo.ArrivalTime = flight.ArrivalTime.DateTime;
+            flightInfo.Status = flight.Status.ToString();
 
             _dbContext.Entry(flight)
                 .Property(f => f.LastModified)
-                .OriginalValue = flightInformation.LastModified;
+                .OriginalValue = flightInfo.LastModified;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            flightInformation.LastModified = flight.LastModified;
+            flightInfo.LastModified = flight.LastModified;
 
             return new UpdateFlightCommandResponse
             {
-                FlightInformation = flightInformation
+                Flight = flight
             };
         }
     }

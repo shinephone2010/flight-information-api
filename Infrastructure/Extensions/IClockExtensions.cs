@@ -8,8 +8,7 @@ namespace Infrastructure.Extensions
         {
             var secondsInstant = clock.GetCurrentInstant().ToUnixTimeSeconds();
             return Instant
-                .FromUnixTimeMilliseconds(secondsInstant)
-                .InUtc()
+                .FromUnixTimeSeconds(secondsInstant)
                 .ToDateTimeOffset();
         }
     }

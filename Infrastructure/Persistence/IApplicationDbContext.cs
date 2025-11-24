@@ -6,8 +6,8 @@ namespace Infrastructure.Persistence
 {
     public interface IApplicationDbContext
     {
-        DbSet<FlightInformation> FlightInformation { get; }
+        DbSet<FlightInfo> FlightInfo { get; }
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
