@@ -57,11 +57,11 @@ namespace FlightInformationAPI.Controllers
 
             if (response.Flight == null)
             {
-                new ErrorResponse
+                return NotFound(new ErrorResponse
                 {
                     Error = "Not Found",
                     Message = $"Flight with id: {id} is not found."
-                };
+                });
             }
 
             return Ok(response.Flight);
