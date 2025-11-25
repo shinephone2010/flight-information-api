@@ -131,29 +131,28 @@ This UI is generated from the OpenAPI 3.0.1 specification and lets you interacti
 From the solution root:
 
 ```bash
-
 dotnet test
 ```
 This runs all configured test projects (unit + integration), validating both business logic and API behaviour.
----
+
+
 ## Regenerating the NSwag Server Stub
-Whenever you change the OpenAPI spec (design-first):
+The API adopt design-first approach, that mean this will generate the OpenAPI specification first.
 
 Update the spec in Stoplight Studio (OpenAPI 3.0.1).
 
 Export or save the updated OpenAPI JSON/YAML file into the project.
 
-Run NSwag using your configuration (e.g. nswag.json) to regenerate:
+Run NSwag using the configuration file (e.g. OpenAPI/Config/nswag.json) to regenerate:
 
 The abstract controller base class.
 
 Any related models or contracts.
 
-Rebuild the solution and update your concrete controller implementation to handle any new or changed endpoints.
+Rebuild the solution and update the concrete controller implementation to handle any new or changed endpoints.
 
 Example command (adjust paths/names as needed):
 
 ```bash
-
 nswag run nswag.json
 ```
