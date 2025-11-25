@@ -103,12 +103,14 @@ From the solution root:
 dotnet restore
 dotnet build
 Run the API
+```
 From the API project folder (e.g. FlightInformationAPI):
 
-bash
+```bash
 
 cd FlightInformationAPI
 dotnet run
+```
 By default, the API will:
 
 Start an ASP.NET Core web server.
@@ -120,17 +122,18 @@ Expose HTTP endpoints at http://localhost:<port> / https://localhost:<port>.
 Swagger / OpenAPI UI
 When running in Development, the Swagger UI should be available at something like:
 
-text
+```text
 
 https://localhost:<port>/swagger
 This UI is generated from the OpenAPI 3.0.1 specification and lets you interactively explore and test the endpoints.
-
+```
 Running Tests
 From the solution root:
 
-bash
+```bash
 
 dotnet test
+```
 This runs all configured test projects (unit + integration), validating both business logic and API behaviour.
 
 Regenerating the NSwag Server Stub
@@ -150,6 +153,7 @@ Rebuild the solution and update your concrete controller implementation to handl
 
 Example command (adjust paths/names as needed):
 
-bash
+```bash
 
 nswag run nswag.json
+```
