@@ -1,6 +1,74 @@
-@FlightInformationAPI_HostAddress = http://localhost:5159
+@baseUrl = https://localhost:7181/api
 
-GET {{FlightInformationAPI_HostAddress}}/weatherforecast/
+### Get all flights
+GET {{baseUrl}}/flights
 Accept: application/json
 
-###
+### Get a flight by id (existing)
+GET {{baseUrl}}/flights/1
+Accept: application/json
+
+### Get a flight by id (not found example)
+GET {{baseUrl}}/flights/999999
+Accept: application/json
+
+### Search flights by criteria (all params)
+GET {{baseUrl}}/flights/search?departureAirport=CHC&fromDate=2025-01-01
+### Search flights by airline only
+GET {{baseUrl}}/flights/search?airline=NZ
+Accept: application/json
+
+### Create a new flight
+POST {{baseUrl}}/flights
+Content-Type: application/json
+Accept: application/json
+
+{
+  "flightNumber": "NZ123",
+  "airline": "Air New Zealand",
+  "departureAirport": "WLG",
+  "arrivalAirport": "AKL",
+  "departureTime": "2025-01-10T09:30:00Z",
+  "arrivalTime": "2025-01-10T10:25:00Z",
+  "status": "Scheduled"
+}
+
+### Update an existing flight (full update)
+PUT {{baseUrl}}/flights/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 1,
+  "flightNumber": "NZ123",
+  "airline": "Air New Zealand",
+  "departureAirport": "WLG",
+  "arrivalAirport": "AKL",
+  "departureTime": "2025-01-10T09:30:00Z",
+  "arrivalTime": "2025-01-10T10:25:00Z",
+  "status": "InAir"
+}
+
+### Update a non-existent flight (not found example)
+PUT {{baseUrl}}/flights/999999
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 999999,
+  "flightNumber": "XX999",
+  "airline": "Test Airline",
+  "departureAirport": "WLG",
+  "arrivalAirport": "AKL",
+  "departureTime": "2025-01-10T09:30:00Z",
+  "arrivalTime": "2025-01-10T10:25:00Z",
+  "status": "Scheduled"
+}
+
+### Delete an existing flight
+DELETE {{baseUrl}}/flights/1
+Accept: application/json
+
+### Delete a non-existent flight (not found example)
+DELETE {{baseUrl}}/flights/999999
+Accept: application/json
