@@ -106,7 +106,7 @@ Run the API
 From the API project folder (e.g. FlightInformationAPI):
 
 bash
-Copy code
+
 cd FlightInformationAPI
 dotnet run
 By default, the API will:
