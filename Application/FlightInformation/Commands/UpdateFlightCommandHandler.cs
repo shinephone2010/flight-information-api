@@ -43,7 +43,7 @@ namespace Application.FlightInformation.Commands
             // will detect the concurrency conflict and throw a DbUpdateConcurrencyException.
             _dbContext.Entry(flightInfo)
                 .Property(f => f.LastModified)
-                .OriginalValue = flightInfo.LastModified.AddHours(1);
+                .OriginalValue = flightInfo.LastModified;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

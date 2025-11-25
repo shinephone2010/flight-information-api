@@ -42,10 +42,8 @@ namespace FlightInformationAPI.Controllers
                     Details = []
                 };
 
-                foreach (var error in result.Errors)
-                {
-                    errorResponse.Details.Add($"{error.PropertyName}: {error.ErrorMessage}");
-                }
+                errorResponse.Details
+                    .AddRange([.. result.Errors.Select(err => $"{err.PropertyName}: {err.ErrorMessage}")]);
 
                 return BadRequest(errorResponse);
             }
@@ -183,10 +181,8 @@ namespace FlightInformationAPI.Controllers
                     Details = []
                 };
 
-                foreach (var error in result.Errors)
-                {
-                    errorResponse.Details.Add($"{error.PropertyName}: {error.ErrorMessage}");
-                }
+                errorResponse.Details
+                    .AddRange([.. result.Errors.Select(err => $"{err.PropertyName}: {err.ErrorMessage}")]);
 
                 return BadRequest(errorResponse);
             }

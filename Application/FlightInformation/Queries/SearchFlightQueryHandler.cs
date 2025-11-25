@@ -43,7 +43,7 @@ namespace Application.FlightInformation.Queries
 
             if (request.SearchKeys.ToDate != default)
             {
-                query = query.Where(f => f.ArrivalTime.Date < request.SearchKeys.ToDate.Date);
+                query = query.Where(f => f.ArrivalTime.Date <= request.SearchKeys.ToDate.Date);
             }
 
             var flightInfoList = await query.ToListAsync(cancellationToken);

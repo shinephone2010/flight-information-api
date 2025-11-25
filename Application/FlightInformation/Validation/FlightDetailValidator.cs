@@ -13,7 +13,7 @@ namespace Application.FlightInformation.Validation
 
             RuleFor(x => x.FlightNumber)
                 .NotEmpty().WithMessage("Flight number is required.")
-                .MaximumLength(5).WithMessage("Flight number must be at most 10 characters.");
+                .MaximumLength(5).WithMessage("Flight number must be at most 5 characters.");
 
             RuleFor(x => x.DepartureAirport)
                 .NotNull().NotEmpty().WithMessage("Departure airport is required.")
