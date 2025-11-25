@@ -22,8 +22,7 @@ namespace Infrastructure.Persistence.Entities
             out string arrivalAirport,
             out DateTimeOffset departureTime,
             out DateTimeOffset arrivalTime,
-            out FlightStatus status,
-            out DateTimeOffset lastModified)
+            out FlightDetailStatus status)
         {
             id = Id;
             flightNumber = FlightNumber;
@@ -32,8 +31,7 @@ namespace Infrastructure.Persistence.Entities
             arrivalAirport = ArrivalAirport;
             departureTime = new DateTimeOffset(DepartureTime);
             arrivalTime = new DateTimeOffset(ArrivalTime);
-            status = Enum.Parse<FlightStatus>(Status);
-            lastModified = LastModified;
+            status = Enum.Parse<FlightDetailStatus>(Status);
         }
     }
 }

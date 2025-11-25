@@ -30,17 +30,17 @@ namespace FlightInformation.API.Controllers
     public abstract class FlightInformationControllerControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
-        /// Your GET endpoint
+        /// GET all flights endpoint
         /// </summary>
         /// <remarks>
         /// Retrieve all flights.
         /// </remarks>
         /// <returns>Retrieve all flights successfully.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("flights")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Flight>>> GetFlights(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<FlightDetail>>> GetAllFlights(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Your POST endpoint
+        /// CREATE new flight endpoint
         /// </summary>
         /// <remarks>
         /// Creates a new flight with the provided details. On success, returns the created flight and the Location header pointing to the new resource.
@@ -48,33 +48,33 @@ namespace FlightInformation.API.Controllers
         /// <param name="body">Flight details used to create a new flight.</param>
         /// <returns>Flight created successfully.</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("flights")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> CreateFlight([Microsoft.AspNetCore.Mvc.FromBody] Flight body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> CreateFlight([Microsoft.AspNetCore.Mvc.FromBody] FlightDetail body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Your GET endpoint
+        /// GET flight detail by id endpoint
         /// </summary>
         /// <remarks>
-        /// Retrieve a specific flight by ID.
+        /// Retrieve a specific flight detail by ID.
         /// </remarks>
         /// <param name="id">Unique identifier of the flight to retrieve.</param>
         /// <returns>Retrieve a specific flight by ID successfully.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("flights/{id}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Flight>> GetFlight([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<FlightDetail>> GetFlight([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Your PUT endpoint
+        /// UPDATE a flight detail endpoint
         /// </summary>
         /// <remarks>
-        /// Update an existing flight.
+        /// Update an existing flight detail.
         /// </remarks>
         /// <param name="id">Unique identifier of the flight to retrieve.</param>
         /// <param name="body">Flight details used to update an existing flight.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("flights/{id}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Flight>> UpdateFlight([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int id, [Microsoft.AspNetCore.Mvc.FromBody] Flight body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<FlightDetail>> UpdateFlight([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int id, [Microsoft.AspNetCore.Mvc.FromBody] FlightDetail body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Your DELETE endpoint
+        /// DELETE a flight endpoint
         /// </summary>
         /// <remarks>
         /// Delete a flight.
@@ -82,10 +82,10 @@ namespace FlightInformation.API.Controllers
         /// <param name="id">Unique identifier of the flight to retrieve.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("flights/{id}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Flight>> DeleteFlight([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<FlightDetail>> DeleteFlight([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Your GET endpoint
+        /// SEARCH flights by keys endpoint
         /// </summary>
         /// <remarks>
         /// Searches for flights that match the specified criteria. Use the searchKeys query parameter to filter by airline, departure and arrival airports, and an optional departure date range. Returns a list of matching flights when found, or 204 (No Content) if no flights match.
@@ -93,7 +93,7 @@ namespace FlightInformation.API.Controllers
         /// <param name="searchKeys">Search criteria for filtering flights.</param>
         /// <returns>A list of flights that match the provided search criteria.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("flights/search")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Flight>>> SearchFlights([Microsoft.AspNetCore.Mvc.FromQuery] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] SearchKeys searchKeys, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<FlightDetail>>> SearchFlights([Microsoft.AspNetCore.Mvc.FromQuery] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] SearchKeys searchKeys, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -101,7 +101,7 @@ namespace FlightInformation.API.Controllers
     /// A representation of a flight information.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Flight
+    public partial class FlightDetail
     {
 
         /// <summary>
@@ -157,15 +157,8 @@ namespace FlightInformation.API.Controllers
         /// </summary>
         [System.Text.Json.Serialization.JsonPropertyName("status")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<FlightStatus>))]
-        public FlightStatus Status { get; set; }
-
-        /// <summary>
-        /// Last update datetime.
-        /// </summary>
-        [System.Text.Json.Serialization.JsonPropertyName("lastModified")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTimeOffset LastModified { get; set; }
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<FlightDetailStatus>))]
+        public FlightDetailStatus Status { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -265,7 +258,7 @@ namespace FlightInformation.API.Controllers
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum FlightStatus
+    public enum FlightDetailStatus
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"Scheduled")]

@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Application.FlightInformation.Validation
 {
-    public class FlightValidator : AbstractValidator<Flight>
+    public class FlightDetailValidator : AbstractValidator<FlightDetail>
     {
-        public FlightValidator()
+        public FlightDetailValidator()
         {
             RuleFor(x => x.Airline)
                 .NotNull().NotEmpty().WithMessage("Airline is required.")

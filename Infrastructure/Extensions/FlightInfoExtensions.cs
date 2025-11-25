@@ -5,10 +5,10 @@ namespace Infrastructure.Extensions
 {
     public static class FlightInfoExtensions
     {
-        public static Flight MapToFlightObject(this FlightInfo flightInfo)
+        public static FlightDetail MapToFlightObject(this FlightInfo flightInfo)
         {
-            var (id, flightNumber, airline, departureAirport, arrivalAirport, departureTime, arrivalTime, status, lastModified) = flightInfo;
-            return new Flight
+            var (id, flightNumber, airline, departureAirport, arrivalAirport, departureTime, arrivalTime, status) = flightInfo;
+            return new FlightDetail
             {
                 Id = id,
                 FlightNumber = flightNumber,
@@ -17,8 +17,7 @@ namespace Infrastructure.Extensions
                 ArrivalAirport = arrivalAirport,
                 DepartureTime = departureTime,
                 ArrivalTime = arrivalTime,
-                Status = status,
-                LastModified = lastModified
+                Status = status
             };
         }
     }

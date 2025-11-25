@@ -9,7 +9,7 @@ namespace Application.FlightInformation.Queries
 
     public class GetFlightQueryResponse
     {
-        public Flight? Flight { get; set; }
+        public FlightDetail? FlightDetail { get; set; }
     }
 
     public class GetFlightQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<GetFlightQueryRequest, GetFlightQueryResponse>
@@ -23,9 +23,7 @@ namespace Application.FlightInformation.Queries
 
             return new GetFlightQueryResponse
             {
-                Flight = flightInfo != null
-                    ? flightInfo.MapToFlightObject()
-                    : null
+                FlightDetail = flightInfo?.MapToFlightObject()
             };
 
         }

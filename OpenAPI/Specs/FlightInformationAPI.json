@@ -17,9 +17,9 @@
         "tags": [
           "Flights"
         ],
-        "summary": "Your GET endpoint",
+        "summary": "GET all flights endpoint",
         "description": "Retrieve all flights.",
-        "operationId": "GetFlights",
+        "operationId": "GetAllFlights",
         "responses": {
           "200": {
             "description": "Retrieve all flights successfully.",
@@ -28,7 +28,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Flight"
+                    "$ref": "#/components/schemas/FlightDetail"
                   }
                 },
                 "examples": {
@@ -42,8 +42,7 @@
                         "arrivalAirport": "WLG",
                         "departureTime": "2025-11-26T10:00:00Z",
                         "arrivalTime": "2025-11-26T11:00:00Z",
-                        "status": "Scheduled",
-                        "lastModified": "2025-11-27T10:00:00Z"
+                        "status": "Scheduled"
                       },
                       {
                         "id": 2,
@@ -53,8 +52,7 @@
                         "arrivalAirport": "AKL",
                         "departureTime": "2025-12-26T10:00:00Z",
                         "arrivalTime": "2025-12-26T11:00:00Z",
-                        "status": "Scheduled",
-                        "lastModified": "2025-11-27T10:00:00Z"
+                        "status": "Scheduled"
                       }
                     ]
                   }
@@ -73,7 +71,7 @@
         "tags": [
           "Flights"
         ],
-        "summary": "Your POST endpoint",
+        "summary": "CREATE new flight endpoint",
         "description": "Creates a new flight with the provided details. On success, returns the created flight and the Location header pointing to the new resource.",
         "operationId": "CreateFlight",
         "requestBody": {
@@ -81,7 +79,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Flight"
+                "$ref": "#/components/schemas/FlightDetail"
               },
               "examples": {
                 "Example 1": {
@@ -92,8 +90,7 @@
                     "arrivalAirport": "WLG",
                     "departureTime": "2025-11-26T10:00:00Z",
                     "arrivalTime": "2025-11-26T11:00:00Z",
-                    "status": "Scheduled",
-                    "lastModified": "2025-11-27T10:00:00Z"
+                    "status": "Scheduled"
                   }
                 }
               }
@@ -150,8 +147,8 @@
         "tags": [
           "Flights"
         ],
-        "summary": "Your GET endpoint",
-        "description": "Retrieve a specific flight by ID.",
+        "summary": "GET flight detail by id endpoint",
+        "description": "Retrieve a specific flight detail by ID.",
         "operationId": "GetFlight",
         "parameters": [
           {
@@ -170,7 +167,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Flight"
+                  "$ref": "#/components/schemas/FlightDetail"
                 },
                 "examples": {
                   "Example 1": {
@@ -182,8 +179,7 @@
                       "arrivalAirport": "WLG",
                       "departureTime": "2025-11-26T10:00:00Z",
                       "arrivalTime": "2025-11-26T11:00:00Z",
-                      "status": "Scheduled",
-                      "lastModified": "2025-11-27T10:00:00Z"
+                      "status": "Scheduled"
                     }
                   }
                 }
@@ -222,8 +218,8 @@
         "tags": [
           "Flights"
         ],
-        "summary": "Your PUT endpoint",
-        "description": "Update an existing flight.",
+        "summary": "UPDATE a flight detail endpoint",
+        "description": "Update an existing flight detail.",
         "operationId": "UpdateFlight",
         "parameters": [
           {
@@ -241,7 +237,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Flight"
+                "$ref": "#/components/schemas/FlightDetail"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "id": 1,
+                    "flightNumber": "NZ123",
+                    "airline": "Air New Zealand",
+                    "departureAirport": "AKL",
+                    "arrivalAirport": "WLG",
+                    "departureTime": "2025-11-26T10:00:00Z",
+                    "arrivalTime": "2025-11-26T11:00:00Z",
+                    "status": "Scheduled"
+                  }
+                }
               }
             }
           }
@@ -252,7 +262,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Flight"
+                  "$ref": "#/components/schemas/FlightDetail"
                 },
                 "examples": {
                   "Example 1": {
@@ -264,8 +274,7 @@
                       "arrivalAirport": "WLG",
                       "departureTime": "2025-11-26T10:00:00Z",
                       "arrivalTime": "2025-11-26T11:00:00Z",
-                      "status": "Scheduled",
-                      "lastModified": "2025-11-27T10:00:00Z"
+                      "status": "Scheduled"
                     }
                   }
                 }
@@ -346,7 +355,7 @@
         "tags": [
           "Flights"
         ],
-        "summary": "Your DELETE endpoint",
+        "summary": "DELETE a flight endpoint",
         "description": "Delete a flight.",
         "operationId": "DeleteFlight",
         "parameters": [
@@ -366,7 +375,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Flight"
+                  "$ref": "#/components/schemas/FlightDetail"
                 },
                 "examples": {
                   "Example 1": {
@@ -378,8 +387,7 @@
                       "arrivalAirport": "WLG",
                       "departureTime": "2025-11-26T10:00:00Z",
                       "arrivalTime": "2025-11-26T11:00:00Z",
-                      "status": "Scheduled",
-                      "lastModified": "2025-11-27T10:00:00Z"
+                      "status": "Scheduled"
                     }
                   }
                 }
@@ -420,7 +428,7 @@
         "tags": [
           "Flights"
         ],
-        "summary": "Your GET endpoint",
+        "summary": "SEARCH flights by keys endpoint",
         "description": "Searches for flights that match the specified criteria. Use the searchKeys query parameter to filter by airline, departure and arrival airports, and an optional departure date range. Returns a list of matching flights when found, or 204 (No Content) if no flights match.",
         "operationId": "SearchFlights",
         "parameters": [
@@ -444,7 +452,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Flight"
+                    "$ref": "#/components/schemas/FlightDetail"
                   }
                 },
                 "examples": {
@@ -458,8 +466,7 @@
                         "arrivalAirport": "WLG",
                         "departureTime": "2025-11-26T10:00:00Z",
                         "arrivalTime": "2025-11-26T11:00:00Z",
-                        "status": "Scheduled",
-                        "lastModified": "2025-11-27T10:00:00Z"
+                        "status": "Scheduled"
                       },
                       {
                         "id": 2,
@@ -469,8 +476,7 @@
                         "arrivalAirport": "AKL",
                         "departureTime": "2025-12-26T10:00:00Z",
                         "arrivalTime": "2025-12-26T11:00:00Z",
-                        "status": "Scheduled",
-                        "lastModified": "2025-11-27T10:00:00Z"
+                        "status": "Scheduled"
                       }
                     ]
                   }
@@ -495,9 +501,9 @@
   ],
   "components": {
     "schemas": {
-      "Flight": {
+      "FlightDetail": {
         "type": "object",
-        "title": "Flight",
+        "title": "Flight Detail",
         "description": "A representation of a flight information.",
         "properties": {
           "id": {
@@ -540,11 +546,6 @@
               "Landed"
             ],
             "description": "Flight status (Scheduled, Delayed, Cancelled, InAir, Landed))"
-          },
-          "lastModified": {
-            "type": "string",
-            "description": "Last update datetime.",
-            "format": "date-time"
           }
         },
         "required": [
@@ -554,8 +555,7 @@
           "arrivalAirport",
           "departureTime",
           "arrivalTime",
-          "status",
-          "lastModified"
+          "status"
         ]
       },
       "ErrorResponse": {

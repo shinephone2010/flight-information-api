@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Application.FlightInformation.Commands
 {
-    public record UpdateFlightCommandRequest(int Id, Flight Flight)
+    public record UpdateFlightCommandRequest(int Id, FlightDetail FlightDetail)
         : IRequest<UpdateFlightCommandResponse>;
 
     public class UpdateFlightCommandResponse()
     {
-        public Flight? Flight { get; set; }
+        public FlightDetail? FlightDetail { get; set; }
     }
 
     public class UpdateFlightCommandHandler(IApplicationDbContext dbContext)
@@ -26,34 +26,30 @@ namespace Application.FlightInformation.Commands
             {
                 return new UpdateFlightCommandResponse
                 {
-                    Flight = null
+                    FlightDetail = null
                 };
             }
 
-            var flight = request.Flight;
+            flightInfo.Airline = request.FlightDetail.Airline;
+            flightInfo.FlightNumber = request.FlightDetail.FlightNumber;
+            flightInfo.DepartureAirport = request.FlightDetail.DepartureAirport;
+            flightInfo.ArrivalAirport = request.FlightDetail.ArrivalAirport;
+            flightInfo.DepartureTime = request.FlightDetail.DepartureTime.DateTime;
+            flightInfo.ArrivalTime = request.FlightDetail.ArrivalTime.DateTime;
+            flightInfo.Status = request.FlightDetail.Status.ToString();
 
-            flightInfo.Airline = flight.Airline;
-            flightInfo.FlightNumber = flight.FlightNumber;
-            flightInfo.DepartureAirport = flight.DepartureAirport;
-            flightInfo.ArrivalAirport = flight.ArrivalAirport;
-            flightInfo.DepartureTime = flight.DepartureTime.DateTime;
-            flightInfo.ArrivalTime = flight.ArrivalTime.DateTime;
-            flightInfo.Status = flight.Status.ToString();
-
-            // This will check in the database if the flight id and the last modified are both matched with the searched flight,
-            // if someone already update the same flight, the lat modified will be updated, and the SaveChangesAsync will return 0
-            // indicate no flight has been updated, at this point the database will throw the DbUpdateConcurrencyException
+            // Ensures the flight is updated only if both Id and LastModified match the current values in the database.
+            // If another process has already updated this flight, the LastModified value will differ, and SaveChangesAsync
+            // will detect the concurrency conflict and throw a DbUpdateConcurrencyException.
             _dbContext.Entry(flightInfo)
                 .Property(f => f.LastModified)
                 .OriginalValue = flightInfo.LastModified.AddHours(1);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            flightInfo.LastModified = flight.LastModified;
-
             return new UpdateFlightCommandResponse
             {
-                Flight = flight
+                FlightDetail = request.FlightDetail
             };
         }
     }

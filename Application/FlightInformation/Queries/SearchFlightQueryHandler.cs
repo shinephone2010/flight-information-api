@@ -10,7 +10,7 @@ namespace Application.FlightInformation.Queries
     public record SearchFlightsQueryRequest(SearchKeys SearchKeys) : IRequest<SearchFlightQueryResponse>;
     public record SearchFlightQueryResponse
     {
-        public IReadOnlyList<Flight> Flights { get; set; } = [];
+        public IReadOnlyList<FlightDetail> Flights { get; set; } = [];
     }
 
     public class SearchFlightQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<SearchFlightsQueryRequest, SearchFlightQueryResponse>

@@ -5,31 +5,43 @@ using FlightInfo = Infrastructure.Persistence.Entities.FlightInfo;
 
 namespace Application.FlightInformation.Commands
 {
-    public record CreateFlightCommandRequest(Flight Flight) : IRequest<int>;
+    public record CreateFlightCommandRequest(FlightDetail FlightDetail) : IRequest<CreateFlightCommandResponse>;
+    public class CreateFlightCommandResponse
+    {
+        public int? CreatedFlightId { get; set; }
+    }
 
     public class CreateFlightCommandHandler(IApplicationDbContext dbContext)
-        : IRequestHandler<CreateFlightCommandRequest, int>
+        : IRequestHandler<CreateFlightCommandRequest, CreateFlightCommandResponse>
     {
         private readonly IApplicationDbContext _dbContext = dbContext;
 
-        public async Task<int> Handle(CreateFlightCommandRequest request, CancellationToken cancellationToken)
+        public async Task<CreateFlightCommandResponse> Handle(CreateFlightCommandRequest request, CancellationToken cancellationToken)
         {
-            var flightInformation = request.Flight;
+            var flightDetail = request.FlightDetail;
 
-            var newFlight = new FlightInfo 
+            var flightInfo = new FlightInfo
             {
-                Airline = flightInformation.Airline,
-                FlightNumber = flightInformation.FlightNumber,
-                DepartureAirport = flightInformation.DepartureAirport,
-                ArrivalAirport = flightInformation.ArrivalAirport,
-                DepartureTime = flightInformation.DepartureTime.DateTime,
-                ArrivalTime = flightInformation.ArrivalTime.DateTime,
-                Status = flightInformation.Status.ToString()
+                Airline = flightDetail.Airline,
+                FlightNumber = flightDetail.FlightNumber,
+                DepartureAirport = flightDetail.DepartureAirport,
+                ArrivalAirport = flightDetail.ArrivalAirport,
+                DepartureTime = flightDetail.DepartureTime.DateTime,
+                ArrivalTime = flightDetail.ArrivalTime.DateTime,
+                Status = flightDetail.Status.ToString()
             };
 
-            _dbContext.FlightInfo.Add(newFlight);
+            _dbContext.FlightInfo.Add(flightInfo);
 
-            return await _dbContext.SaveChangesAsync(cancellationToken);
+            var rows = await _dbContext.SaveChangesAsync(cancellationToken);
+
+            if (rows == 0)
+            {
+                return new CreateFlightCommandResponse { CreatedFlightId = null };
+            }
+
+            return new CreateFlightCommandResponse { CreatedFlightId = flightInfo.Id };
+
         }
     }
 }

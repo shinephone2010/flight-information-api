@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddInfrastructure();
 builder.Services.AddSingleton<IClock>(SystemClock.Instance);
-builder.Services.AddScoped<IValidator<Flight>, FlightValidator>();
+builder.Services.AddScoped<IValidator<FlightDetail>, FlightDetailValidator>();
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssemblyContaining<UpdateFlightCommandHandler>();

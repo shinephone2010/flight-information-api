@@ -9,7 +9,7 @@ namespace Application.FlightInformation.Commands
 
     public class DeleteFlightCommandResponse
     {
-        public Flight? Flight { get; set; }
+        public FlightDetail? FlightDetail { get; set; }
     }
 
     public class DeleteFlightCommandHandler(IApplicationDbContext dbContext)
@@ -22,11 +22,11 @@ namespace Application.FlightInformation.Commands
             var flightInfo = await _dbContext.FlightInfo
                 .FindAsync([request.Id], cancellationToken);
 
-            if (flightInfo == null) 
+            if (flightInfo == null)
             {
                 return new DeleteFlightCommandResponse
                 {
-                    Flight = null
+                    FlightDetail = null
                 };
             }
 
@@ -36,7 +36,7 @@ namespace Application.FlightInformation.Commands
 
             return new DeleteFlightCommandResponse
             {
-                Flight = flightInfo.MapToFlightObject()
+                FlightDetail = flightInfo.MapToFlightObject()
             };
         }
     }

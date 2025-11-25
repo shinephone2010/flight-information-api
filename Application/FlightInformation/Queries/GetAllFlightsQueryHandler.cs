@@ -10,7 +10,7 @@ namespace Application.FlightInformation.Queries
 
     public class GetAllFlightsQueryResponse
     {
-        public IReadOnlyList<Flight>? AllFlights { get; set; }
+        public IReadOnlyList<FlightDetail>? AllFlights { get; set; }
     }
 
     public class GetAllFlightsQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<GetAllFlightsQueryRequest, GetAllFlightsQueryResponse>
@@ -19,9 +19,11 @@ namespace Application.FlightInformation.Queries
 
         public async Task<GetAllFlightsQueryResponse> Handle(GetAllFlightsQueryRequest request, CancellationToken cancellationToken)
         {
+            var allFlights = await _dbContext.FlightInfo.AsNoTracking().ToListAsync(cancellationToken);
+
             return new GetAllFlightsQueryResponse
             {
-                AllFlights = [..await _dbContext.FlightInfo.AsNoTracking().Select(f => f.MapToFlightObject()).ToListAsync(cancellationToken)]
+                AllFlights = [.. allFlights.Select(f => f.MapToFlightObject())]
             };
         }
     }
