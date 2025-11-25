@@ -10,7 +10,6 @@ namespace FlightInformationAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase("FlightInformationDb"));
 
-            // 👇 This line tells DI how to build IApplicationDbContext
             services.AddScoped<IApplicationDbContext>(sp =>
                 sp.GetRequiredService<ApplicationDbContext>());
 
