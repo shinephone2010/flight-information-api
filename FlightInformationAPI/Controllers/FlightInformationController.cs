@@ -85,7 +85,7 @@ namespace FlightInformationAPI.Controllers
             return Ok(response.Flight);
         }
 
-        // No pagination just for simplicity 
+        // No pagination return all the flights just for simplicity 
         public override async Task<ActionResult<ICollection<Flight>>> GetFlights(CancellationToken cancellationToken = default)
         {
             var getAllFlightsQueryRequest = new GetAllFlightsQueryRequest();
@@ -95,7 +95,9 @@ namespace FlightInformationAPI.Controllers
             return Ok(response.AllFlights);
         }
 
-        public override async Task<ActionResult<ICollection<Flight>>> SearchFlights([BindRequired, FromQuery] SearchKeys searchKeys, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<ICollection<Flight>>> SearchFlights(
+            [BindRequired, FromQuery] SearchKeys searchKeys, 
+            CancellationToken cancellationToken = default)
         {
             var searchFlightsQueryRequest = new SearchFlightsQueryRequest(searchKeys);
 
@@ -104,7 +106,10 @@ namespace FlightInformationAPI.Controllers
             return Ok(response.Flights);
         }
 
-        public override async Task<ActionResult<Flight>> UpdateFlight([BindRequired] int id, [FromBody] Flight body, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<Flight>> UpdateFlight(
+            [BindRequired] int id, 
+            [FromBody] Flight body, 
+            CancellationToken cancellationToken = default)
         {
             ValidationResult result = _validator.Validate(body);
 

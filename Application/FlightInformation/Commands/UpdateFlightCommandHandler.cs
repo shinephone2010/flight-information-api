@@ -40,9 +40,12 @@ namespace Application.FlightInformation.Commands
             flightInfo.ArrivalTime = flight.ArrivalTime.DateTime;
             flightInfo.Status = flight.Status.ToString();
 
-            _dbContext.Entry(flight)
+            // This will check in the database if the flight id and the last modified are both matched with the searched flight,
+            // if someone already update the same flight, the lat modified will be updated, and the SaveChangesAsync will return 0
+            // indicate no flight has been updated, at this point the database will throw the DbUpdateConcurrencyException
+            _dbContext.Entry(flightInfo)
                 .Property(f => f.LastModified)
-                .OriginalValue = flightInfo.LastModified;
+                .OriginalValue = flightInfo.LastModified.AddHours(1);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
