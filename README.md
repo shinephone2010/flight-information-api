@@ -113,7 +113,7 @@ dotnet run
 ```
 By default, the API will:
 
-Start an ASP.NET Core web server.
+## Start an ASP.NET Core web server.
 
 Seed initial in-memory flight data (if configured in the Infrastructure layer).
 
@@ -127,7 +127,7 @@ When running in Development, the Swagger UI should be available at something lik
 https://localhost:<port>/swagger
 This UI is generated from the OpenAPI 3.0.1 specification and lets you interactively explore and test the endpoints.
 ```
-Running Tests
+## Running Tests
 From the solution root:
 
 ```bash
@@ -135,8 +135,8 @@ From the solution root:
 dotnet test
 ```
 This runs all configured test projects (unit + integration), validating both business logic and API behaviour.
-
-Regenerating the NSwag Server Stub
+---
+## Regenerating the NSwag Server Stub
 Whenever you change the OpenAPI spec (design-first):
 
 Update the spec in Stoplight Studio (OpenAPI 3.0.1).
